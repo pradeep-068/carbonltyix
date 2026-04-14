@@ -39,7 +39,14 @@ export default function MonitoringGauge({
       ? 'warning'
       : 'healthy';
 
-  const statusClass =
+  const barColor =
+    status === 'danger'
+      ? 'bg-destructive'
+      : status === 'warning'
+      ? 'bg-yellow-500'
+      : 'bg-primary';
+
+  const statusLabel =
     status === 'danger'
       ? 'status-danger'
       : status === 'warning'
@@ -47,38 +54,32 @@ export default function MonitoringGauge({
       : 'status-healthy';
 
   return (
-    <div className="panel space-y-3">
+    <div className="panel space-y-3 group hover:border-primary/20 transition-all">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
           {label}
         </span>
-        <span className={`text-xs font-mono uppercase ${statusClass}`}>
+        <span className={`text-[10px] font-mono uppercase ${statusLabel}`}>
           {status}
         </span>
       </div>
 
       <div className="flex items-baseline gap-1">
-        <span className={`reading-value ${statusClass}`}>
+        <span className={`font-mono text-xl font-bold ${statusLabel}`}>
           {displayValue.toFixed(1)}
         </span>
-        <span className="text-sm text-muted-foreground font-mono">{unit}</span>
+        <span className="text-xs text-muted-foreground font-mono">{unit}</span>
       </div>
 
       {/* Progress bar */}
-      <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+      <div className="h-1 bg-muted rounded-full overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all duration-1000 ${
-            status === 'danger'
-              ? 'bg-destructive'
-              : status === 'warning'
-              ? 'bg-accent'
-              : 'bg-secondary'
-          }`}
+          className={`h-full rounded-full transition-all duration-1000 ${barColor}`}
           style={{ width: `${percentage}%` }}
         />
       </div>
 
-      <div className="flex justify-between text-xs text-muted-foreground font-mono">
+      <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
         <span>{min}</span>
         <span>{max}</span>
       </div>
