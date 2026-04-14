@@ -5,8 +5,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index";
 import DigitalTwin from "./pages/DigitalTwin";
-import Monitoring from "./pages/Monitoring";
+import Sensors from "./pages/Sensors";
 import CarbonAnalytics from "./pages/CarbonAnalytics";
+import Energy from "./pages/Energy";
+import Equipment from "./pages/Equipment";
+import Alerts from "./pages/Alerts";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,8 +23,11 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/digital-twin" element={<DigitalTwin />} />
-          <Route path="/monitoring" element={<Monitoring />} />
+          <Route path="/sensors" element={<Sensors />} />
           <Route path="/carbon" element={<CarbonAnalytics />} />
+          <Route path="/energy" element={<Energy />} />
+          <Route path="/equipment" element={<Equipment />} />
+          <Route path="/alerts" element={<Alerts />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

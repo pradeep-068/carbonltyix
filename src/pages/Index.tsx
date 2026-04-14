@@ -1,14 +1,12 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
-import TransformerScene from '@/components/TransformerScene';
-import MonitoringGauge from '@/components/MonitoringGauge';
-import CarbonEmissionsPanel from '@/components/CarbonEmissionsPanel';
-import SystemStatusPanel from '@/components/SystemStatusPanel';
-import StatsCard from '@/components/StatsCard';
-import AlertsPanel from '@/components/AlertsPanel';
+import PageTitle from '@/components/PageTitle';
+import CommandStatsCard from '@/components/CommandStatsCard';
+import GridNetworkViz from '@/components/GridNetworkViz';
 import LiveChart from '@/components/LiveChart';
-import EquipmentHealth from '@/components/EquipmentHealth';
+import AlertsPanel from '@/components/AlertsPanel';
+import RecentActivity from '@/components/RecentActivity';
 import { motion } from 'framer-motion';
-import { Zap, Thermometer, Gauge, BatteryCharging } from 'lucide-react';
+import { Monitor, AlertTriangle, Zap, Leaf, Globe, TrendingDown, Activity, Settings } from 'lucide-react';
 
 const fadeIn = {
   initial: { opacity: 0, y: 10 },
@@ -18,52 +16,62 @@ const fadeIn = {
 
 const Index = () => {
   return (
-    <DashboardLayout title="Dashboard" subtitle="Real-time UHV Substation Overview">
+    <DashboardLayout title="Command Overview" subtitle="">
       <div className="p-5 space-y-5">
-        {/* Stats row */}
+        <div className="flex items-center justify-between">
+          <PageTitle first="COMMAND" highlight="OVERVIEW" subtitle="Smart Carbon Neutral UHV Monitoring System" />
+          <div className="flex items-center gap-2 panel-glow px-3 py-1.5">
+            <div className="h-2 w-2 rounded-full bg-primary pulse-glow" />
+            <span className="text-[10px] font-mono text-primary uppercase tracking-wider">LIVE</span>
+            <span className="text-[10px] font-mono text-muted-foreground">
+              {new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}
+            </span>
+          </div>
+        </div>
+
+        {/* Stats Row 1 */}
         <motion.div {...fadeIn} className="grid grid-cols-4 gap-4">
-          <StatsCard label="Voltage" value="765.2" unit="kV" icon={Zap} trend={0.3} />
-          <StatsCard label="Temperature" value="62.4" unit="°C" icon={Thermometer} trend={-1.2} />
-          <StatsCard label="Load Factor" value="72.1" unit="%" icon={Gauge} trend={2.1} />
-          <StatsCard label="Efficiency" value="98.7" unit="%" icon={BatteryCharging} trend={0.1} />
+          <CommandStatsCard label="Active Sensors" value="247" unit="" subtitle="3 offline" icon={Monitor} />
+          <CommandStatsCard label="Active Alerts" value="2" unit="" subtitle="0 critical" icon={AlertTriangle} />
+          <CommandStatsCard label="Grid Voltage" value="1000.0" unit="kV" subtitle="50.00 Hz" icon={Zap} />
+          <CommandStatsCard label="Renewable Share" value="35" unit="%" subtitle="Carbon Score: 72" icon={Leaf} />
         </motion.div>
 
-        {/* Main content: 3D + Charts */}
-        <div className="grid grid-cols-3 gap-5">
-          {/* 3D Digital Twin */}
-          <motion.div {...fadeIn} transition={{ delay: 0.1 }} className="col-span-2 h-[420px] rounded-lg overflow-hidden border border-border">
-            <TransformerScene />
-          </motion.div>
+        {/* Stats Row 2 */}
+        <motion.div {...fadeIn} transition={{ delay: 0.05 }} className="grid grid-cols-4 gap-4">
+          <CommandStatsCard label="Carbon Rate" value="12.4" unit="t/hr" subtitle="Real-time CO2 output" icon={Globe} />
+          <CommandStatsCard label="Current Load" value="3,200" unit="MW" subtitle="Peak: 3,450 MW" icon={TrendingDown} />
+          <CommandStatsCard label="System Efficiency" value="98.2" unit="%" subtitle="Transmission efficiency" icon={Activity} />
+          <CommandStatsCard label="Equipment Faults" value="1" unit="" subtitle="of 24 units" icon={Settings} />
+        </motion.div>
 
-          {/* Monitoring Gauges */}
-          <motion.div {...fadeIn} transition={{ delay: 0.15 }} className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <MonitoringGauge label="Voltage" value={765} unit="kV" min={700} max={800} warningThreshold={780} dangerThreshold={795} />
-              <MonitoringGauge label="Current" value={3200} unit="A" min={0} max={5000} warningThreshold={4000} dangerThreshold={4500} />
-              <MonitoringGauge label="Temperature" value={62} unit="°C" min={20} max={120} warningThreshold={85} dangerThreshold={100} />
-              <MonitoringGauge label="Load" value={72} unit="%" min={0} max={100} warningThreshold={80} dangerThreshold={95} />
+        {/* Grid Network + Carbon Trend */}
+        <div className="grid grid-cols-2 gap-5">
+          <motion.div {...fadeIn} transition={{ delay: 0.1 }} className="h-[300px]">
+            <GridNetworkViz />
+          </motion.div>
+          <motion.div {...fadeIn} transition={{ delay: 0.15 }}>
+            <div className="panel">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">30-Day Carbon Emissions Trend</span>
+                <span className="text-[10px] font-mono text-primary">18.5% reduction vs baseline</span>
+              </div>
+              <div className="h-[240px]">
+                <LiveChart title="" dataKey="emissions" />
+              </div>
             </div>
-            <SystemStatusPanel />
           </motion.div>
         </div>
 
-        {/* Bottom row */}
-        <div className="grid grid-cols-3 gap-5">
+        {/* Alerts + Recent Activity */}
+        <div className="grid grid-cols-2 gap-5">
           <motion.div {...fadeIn} transition={{ delay: 0.2 }}>
-            <CarbonEmissionsPanel />
-          </motion.div>
-          <motion.div {...fadeIn} transition={{ delay: 0.25 }}>
-            <LiveChart title="Power Output" dataKey="power" />
-          </motion.div>
-          <motion.div {...fadeIn} transition={{ delay: 0.3 }}>
             <AlertsPanel />
           </motion.div>
+          <motion.div {...fadeIn} transition={{ delay: 0.25 }}>
+            <RecentActivity />
+          </motion.div>
         </div>
-
-        {/* Equipment Health */}
-        <motion.div {...fadeIn} transition={{ delay: 0.35 }}>
-          <EquipmentHealth />
-        </motion.div>
       </div>
     </DashboardLayout>
   );

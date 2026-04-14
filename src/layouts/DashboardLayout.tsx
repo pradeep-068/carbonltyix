@@ -10,9 +10,9 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children, title, subtitle }: DashboardLayoutProps) {
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-background">
       <Sidebar />
-      <div className="flex-1 ml-64 flex flex-col">
+      <div className="flex-1 ml-52 flex flex-col">
         <DashboardHeader title={title} subtitle={subtitle} />
         <main className="flex-1 overflow-y-auto">
           {children}
