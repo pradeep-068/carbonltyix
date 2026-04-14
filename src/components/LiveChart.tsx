@@ -34,8 +34,8 @@ export default function LiveChart({ title, dataKey, color = 'hsl(142, 71%, 45%)'
   }, []);
 
   return (
-    <div className="panel space-y-3">
-      <div className="flex items-center justify-between">
+    <div className={title ? "panel space-y-3" : "space-y-3"}>
+      {title && <div className="flex items-center justify-between">
         <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{title}</span>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
@@ -47,7 +47,7 @@ export default function LiveChart({ title, dataKey, color = 'hsl(142, 71%, 45%)'
             <span className="text-[10px] font-mono text-muted-foreground">AI Predicted</span>
           </div>
         </div>
-      </div>
+      </div>}
 
       <div className="h-44">
         <ResponsiveContainer width="100%" height="100%">
