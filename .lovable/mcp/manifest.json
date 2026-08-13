@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://onoanwlgafltmgvdembr.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "smart-carbon-grid",
+      "version": "0.1.0",
+      "title": "Smart Carbon Grid"
+    },
+    "tools": [
+      {
+        "name": "get_grid_status",
+        "title": "Get grid status",
+        "description": "Get the live command-overview grid status: voltage, frequency, load, transmission efficiency, sensor counts and equipment faults.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_equipment",
+        "title": "List substation equipment",
+        "description": "List all monitored UHV substation equipment (transformers, circuit breakers, surge arresters, capacitor banks) with status and health score.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Optional filter on equipment type, e.g. 'Power Transformer' or 'Circuit Breaker'."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_equipment",
+        "title": "Get equipment details",
+        "description": "Get the full digital-twin parameter set for one piece of equipment by its ID (e.g. TR-01, CB-03, CAP-01).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Equipment ID such as TR-01."
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_alerts",
+        "title": "List active alerts",
+        "description": "List the active monitoring alerts for the substation, optionally filtered by severity.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "severity": {
+              "type": "string",
+              "enum": [
+                "critical",
+                "warning",
+                "info"
+              ],
+              "description": "Optional severity filter."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_carbon_metrics",
+        "title": "Get carbon metrics",
+        "description": "Get carbon-neutrality metrics for the substation: real-time CO2 output rate, renewable share, carbon score and reduction versus baseline.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
