@@ -10,6 +10,8 @@ import CarbonAnalytics from "./pages/CarbonAnalytics";
 import Energy from "./pages/Energy";
 import Equipment from "./pages/Equipment";
 import Alerts from "./pages/Alerts";
+import Login from "./pages/Login";
+import OAuthConsent from "./pages/OAuthConsent";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ const App = () => (
           <Route path="/energy" element={<Energy />} />
           <Route path="/equipment" element={<Equipment />} />
           <Route path="/alerts" element={<Alerts />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
